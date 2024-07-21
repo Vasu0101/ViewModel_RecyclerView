@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.rcube.recyclerview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[PersonViewModel::class.java]
         adapter = PersonAdapter(viewModel)
 
+
+
         binding.btnSubmit.setOnClickListener {
 
             Log.i("appCheck", "Submit Button Clicked");
@@ -41,8 +44,14 @@ class MainActivity : AppCompatActivity() {
             val about = binding.etBio.text.toString()
 
             viewModel.addItem(name, phone, about);
+
+
         }
 
+        val recyclerView = binding.rcvDataHolder
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+        
         viewModel.items.observe(this, Observer {
             Log.i("appCheck", "View Model Observer, data Changed");
             adapter.notifyDataSetChanged()
